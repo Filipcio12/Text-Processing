@@ -5,7 +5,8 @@
 char* getLine();
 char** getText(int* size);
 
-int main() {
+int main()
+{
 	int size;
 	char** text = getText(&size);
 	int j;
@@ -24,7 +25,8 @@ int main() {
 	return 0;
 }
 
-char* getLine() {
+char* getLine()
+{
 	char c = getchar();
 	if (c == '\n' || c == EOF) {
 		return NULL;
@@ -40,8 +42,7 @@ char* getLine() {
 	int size = 1;
 
 	while (c != '\n' && c != EOF) {
-		char* arr1 = realloc(arr,
-							(size + 1) * sizeof(char));
+		char* arr1 = realloc(arr, (size + 1) * sizeof(char));
 		if (arr1 == NULL) {
 			return NULL;
 		}
@@ -50,8 +51,7 @@ char* getLine() {
 		size++;
 		c = getchar();
 	}
-	char* arr1 = realloc(arr,
-						(size + 1) * sizeof(char));
+	char* arr1 = realloc(arr, (size + 1) * sizeof(char));
 	if (arr1 == NULL) {
 		return NULL;
 	}
@@ -60,7 +60,8 @@ char* getLine() {
 	return arr;
 }
 
-char** getText(int* size) {
+char** getText(int* size)
+{
 	char** text;
 	char* line;
 	line = getLine();
@@ -77,8 +78,7 @@ char** getText(int* size) {
 	*size = 1;
 
 	while (1) {
-		char** text1 = realloc(text,
-								(*size + 1) * sizeof(char*));
+		char** text1 = realloc(text, (*size + 1) * sizeof(char*));
 		if (text1 == NULL) {
 			return NULL;
 		}
