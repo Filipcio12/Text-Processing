@@ -9,8 +9,9 @@ int main()
 {
 	int size;
 	char** text = getText(&size);
-	int j;
-	for (int i = 0; i < size; i++) {
+	int i, j;
+
+	/**for (i = 0; i < size; i++) {
 		if (text[i] == NULL) {
 			printf("\n");
 			continue;
@@ -20,7 +21,32 @@ int main()
 		}
 		printf("\n");
 	}
-	// Now I just have to print it in reverse.
+	printf("\n");**/
+
+	// Printing in reverse
+	for (i = size - 1; i > -1; i--) {
+		if (text[i] == NULL) {
+			printf("\n");
+			continue;
+		}
+		int wordLength = 0;
+		for (j = strlen(text[i]) - 1; j > -1; j--) {
+			if (text[i][j] == ' ') {
+				for (int k = 1; k <= wordLength; k++) {
+					printf("%c", text[i][j + k]);
+				}
+				printf(" ");
+				wordLength = 0;
+			}
+			else {
+				wordLength++;
+			}
+		}
+		for (int k = 1; k <= wordLength; k++) {
+			printf("%c", text[i][j + k]);
+		}
+		printf("\n");
+	}
 	free(text);
 	return 0;
 }
@@ -85,12 +111,16 @@ char** getText(int* size)
 		text = text1;
 		text[*size] = line;
 		(*size)++;
-		line = getLine();
-
 		if (text[*size - 1] == NULL && text[*size - 2] == NULL) {
 			break;
 		}
+		line = getLine();
 	}
-
+	*size -= 2;
+	char** text1 = realloc(text, *size * sizeof(char*));
+	if (text1 == NULL) {
+		return NULL;
+	}
+	text = text1;
 	return text;
 }
