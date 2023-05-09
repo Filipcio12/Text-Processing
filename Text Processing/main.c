@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "rand_malloc.h"
 
 char* getLine();
 char** getText(int* size);
@@ -11,19 +12,6 @@ int main()
 	char** text = getText(&size);
 	int i, j;
 
-	/**for (i = 0; i < size; i++) {
-		if (text[i] == NULL) {
-			printf("\n");
-			continue;
-		}
-		for (j = 0; j < strlen(text[i]); j++) {
-			printf("%c", text[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");**/
-
-	// Printing in reverse
 	for (i = size - 1; i > -1; i--) {
 		if (text[i] == NULL) {
 			printf("\n");
@@ -47,6 +35,11 @@ int main()
 		}
 		printf("\n");
 	}
+	
+	for (int i = 0; i < size; ++i) {
+		free(text[i]);
+	}
+	
 	free(text);
 	return 0;
 }
@@ -70,6 +63,7 @@ char* getLine()
 	while (c != '\n' && c != EOF) {
 		char* arr1 = realloc(arr, (size + 1) * sizeof(char));
 		if (arr1 == NULL) {
+			free(arr1);
 			return NULL;
 		}
 		arr = arr1;
@@ -79,6 +73,7 @@ char* getLine()
 	}
 	char* arr1 = realloc(arr, (size + 1) * sizeof(char));
 	if (arr1 == NULL) {
+		free(arr1);
 		return NULL;
 	}
 	arr = arr1;
@@ -92,11 +87,13 @@ char** getText(int* size)
 	char* line;
 	line = getLine();
 	if (line == NULL) {
+		free(line);
 		return NULL;
 	}
 
 	text = malloc(sizeof(char*));
 	if (text == NULL) {
+		free(text);
 		return NULL;
 	}
 	text[0] = line;
@@ -106,6 +103,7 @@ char** getText(int* size)
 	while (1) {
 		char** text1 = realloc(text, (*size + 1) * sizeof(char*));
 		if (text1 == NULL) {
+			free(text1);
 			return NULL;
 		}
 		text = text1;
@@ -119,6 +117,7 @@ char** getText(int* size)
 	*size -= 2;
 	char** text1 = realloc(text, *size * sizeof(char*));
 	if (text1 == NULL) {
+		free(text1);
 		return NULL;
 	}
 	text = text1;
