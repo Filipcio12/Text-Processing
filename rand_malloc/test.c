@@ -46,8 +46,8 @@ char** readText(size_t* size)
 
 		if (
 				bufferSize > 2 && 
-				text[bufferSize - 2][0] == '\n' && 
-				text[bufferSize - 3][0] == '\n'
+				text[bufferSize - 2][0] == '\0' && 
+				text[bufferSize - 3][0] == '\0'
 			) {
 			break;
 		}
