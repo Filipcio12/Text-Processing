@@ -3,14 +3,14 @@
 #include <string.h>
 #include "rand_malloc.h"
 
-void printInReverse(char** text, size_t size);
-char* readLine();
-char** readText(size_t* bufferSize);
+void printInReverse(char** text, int size);
+char* getLine();
+char** getText(int* size);
 
 int main()
 {
-	size_t size = 0;
-	char** text = readText(&size);
+	int size = 0;
+	char** text = getText(&size);
 
 	if (!text) {
 		printf("Memory allocation error");
@@ -19,7 +19,7 @@ int main()
 
 	printInReverse(text, size);
 
-	for (size_t i = size; i > 0; --i) {
+	for (int i = size; i > 0; --i) {
 		free(text[i - 1]);
 	}
 	
@@ -27,13 +27,13 @@ int main()
 	return 0;
 }
 
-char** readText(size_t* size)
+char** getText(int* size)
 {
 	char** text = NULL;
 	char* line;
-	size_t bufferSize = 1;
+	int bufferSize = 1;
 
-	while ((line = readLine())) {
+	while ((line = getLine())) {
 		char** newBuffer = realloc(text, bufferSize * sizeof(char*));
 
 		if (!newBuffer) {
@@ -57,18 +57,18 @@ char** readText(size_t* size)
 	return text;
 
 	error:
-		for (size_t i = bufferSize - 1; i > 0; --i) {
+		for (int i = bufferSize - 1; i > 0; --i) {
 			free(text[i - 1]);
 		}
 		free(text);
 		return NULL;
 }
 
-char* readLine()
+char* getLine()
 {
 	char* line = NULL;
 	char c;
-	size_t bufferSize = 1;
+	int bufferSize = 1;
 
 	while ((c = getchar()) != EOF && c != '\n') {
 		char* newBuffer = realloc(line, bufferSize);
@@ -100,7 +100,7 @@ char* readLine()
 	return line;
 }
 
-void printInReverse(char** text, size_t size)
+void printInReverse(char** text, int size)
 {
 	int i, j;
 
@@ -114,7 +114,7 @@ void printInReverse(char** text, size_t size)
 
 		for (j = strlen(text[i]) - 1; j > -1; j--) {
 			if (text[i][j] == ' ') {
-				for (size_t k = 1; k <= wordLength; k++) {
+				for (int k = 1; k <= wordLength; k++) {
 					printf("%c", text[i][j + k]);
 				}
 
@@ -126,7 +126,7 @@ void printInReverse(char** text, size_t size)
 			}
 		}
 
-		for (size_t k = 1; k <= wordLength; k++) {
+		for (int k = 1; k <= wordLength; k++) {
 			printf("%c", text[i][j + k]);
 		}
 
